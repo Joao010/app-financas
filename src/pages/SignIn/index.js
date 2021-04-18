@@ -1,47 +1,58 @@
-import React, {useState} from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import { Background, Container, Logo, AreaInput, Input, SubmitButton, 
-SubmitText, Link, LinkText} from './style';
+import { AuthContext } from '../../contexts/auth';
+import { Background, Container, Logo, AreaInput, Input, SubmitButton,
+SubmitText, Link, LinkText } from './styles';
 
-export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export const SignIn = () => {
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
- return (
-   <Background>
-      <Container>
-        <Logo source={require('../../assets/Logo.png')}/>
-        
-        <AreaInput>
-          <Input
-          placeholder="Email"
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={email}
-          onChangeText={ (text) => setEmail(text) }
-          />
-        </AreaInput>
+  const navigation = useNavigation();
 
-        <AreaInput>
-          <Input
-          placeholder="Senha"
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={password}
-          onChangeText={ (text) => setPassword(text) }
-          />
-        </AreaInput>
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
 
-      <SubmitButton>
-        <SubmitText>Acessar</SubmitText>
-      </SubmitButton>
+  return <Background>
+    <Container
+    behavior={Platform.OS === 'ios' ? 'padding' : null}
+    enabled
+    >
+      <Logo source={require('../../assets/Logo.png')}/>
 
-      <Link>
-        <LinkText>Criar uma conta!</LinkText>
-      </Link>
+      <AreaInput>
+        <Input
+        placeholder="Email"
+        autoCorrect={false}
+        autoCapitalize="none"
+        value={email}
+        onChangeText={ (text) => setEmail(text) }
+        />
+      </AreaInput>
 
-      </Container>
-   </Background>
-  );
+      <AreaInput>
+        <Input
+        placeholder="Senha"
+        autoCorrect={false}
+        autoCapitalize="none"
+        value={password}
+        onChangeText={ (text) => setPassword(text) }
+        secureTextEntry={true}
+        />
+      </AreaInput>
+
+    <SubmitButton onPress={() => signIn(email, password)}>
+      { loadingAuth
+      ? <ActivityIndicator size={20} color='#fff'/>
+      : <SubmitText>Acessar</SubmitText>
+      }
+    </SubmitButton>
+
+    <Link onPress={() => navigation.navigate('SignUp')}>
+      <LinkText>Criar uma conta!</LinkText>
+    </Link>
+
+    </Container>
+  </Background>
 }

@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
-import { theme } from '../../global/styles/index.json';
-const { primary, secondary, tertiary } = theme.colors;
+import { primary, secondary, whites } from '../../styles/colors.json';
 
 export const Background = styled.View`
   flex:1;
@@ -54,5 +53,5 @@ export const Link = styled.TouchableOpacity`
 `;
 
 export const LinkText = styled.Text`
-  color: ${ tertiary };
+  color: ${ whites[0] };
 `;
