@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 
 import { AuthContext } from '../../contexts/auth';
 import { Container, Name, NewLink, NewText, Logout, LogoutText } from './styles';
